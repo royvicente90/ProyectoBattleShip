@@ -20,7 +20,7 @@ def Puntaje():
   print('Sus puntajes han sido guardados exitosamente')
 #Funcion Evitar abyacencia
 def ady(x0,x1,y0,y1):
-      if((x0==x1)and(y0==y1+1))or((x0==x1)and(y0==y1-1))or((x0==x1+1)and(y0==y1))or((x0==x1-1)and(y0==y1)):
+  if((x0==x1)and(y0==y1+1))or((x0==x1)and(y0==y1-1))or((x0==x1+1)and(y0==y1))or((x0==x1-1)and(y0==y1)):
     adyacente=True
   else:
     adyacente=False
