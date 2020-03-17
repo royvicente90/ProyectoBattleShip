@@ -10,6 +10,13 @@ def CleanScreen():
         os.system("cls")
     else:
         os.system("clear")
+def Puntaje():
+  global DispTotal
+  global PuntosTotales  
+  global username
+  with open("Puntuaciones.txt", "a+") as bd:
+      bd.write("{},{},{}\n".format(username, PuntosTotales, DispTotal))
+  print('Sus puntajes han sido guardados exitosamente')
 def GameInit(tablero_mod):
     #TABLERO
   for x in tablero:
@@ -111,13 +118,6 @@ def Disparo():
   Winner = []
   Temporal = []
   InstaWin = "InstaWin"
-  username = UserName()
-  #Variables de Puntuaciones
-  DispAcer = 0
-  DispErr = 0
-  DispRpt = 0
-  DispTotal = 0
-  PuntosTotales = 0
   #Set Variables de Puntuaciones como Globales
   global DispAcer
   global DispErr
@@ -125,6 +125,13 @@ def Disparo():
   global DispTotal
   global PuntosTotales  
   global username
+  #Variables de Puntuaciones
+  DispAcer = 0
+  DispErr = 0
+  DispRpt = 0
+  DispTotal = 0
+  PuntosTotales = 0
+  username = UserName()
   #Variables Posiciones de Barcos
   Barco31 = []
   Barco32 = []
@@ -259,12 +266,5 @@ def Disparo():
   print()
   for z in tablero_modded:
     print(z)
-  return(DispAcer,DispErr,PuntosTotales,DispTotal)
-def Puntaje():
-  global DispAcer
-  global DispErr
-  global DispRpt
-  global DispTotal
-  global PuntosTotales
-  global username
-  return()
+  print()
+  Puntaje()

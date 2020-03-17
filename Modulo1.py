@@ -1,3 +1,25 @@
+#Comprobador si el Usuario ya se encuentra registrado
+def UserIsOn(username):
+    global UserExist
+    UserExist = False
+    try:
+        all_users = open('BD.txt', 'r').readlines()
+        for user in all_users:
+            usuario = user[:-1].split(',')
+            if usuario[0] == username:
+                UserExist = True
+    except FileNotFoundError:
+        print('Todavia no se ha registrado.')
+#Registrar Usuario en caso de que no exista
+def RegUser():
+    global username
+    global nombre
+    global edad
+    global genero
+    global UserExist
+    with open("BD.txt", "a+") as bd:
+        bd.write("{},{},{},{}\n".format(username, nombre, edad, genero))
+    print('Usuario:',username,'registrado correctamente')
 def datos():
     print ("==Bienvenido usuario==")
 #Necesarios pero Sin Importancia
@@ -10,6 +32,10 @@ def datos():
     UserNameCounter = 0
     #Declaramos username como constante
     global username
+    global nombre
+    global edad
+    global genero
+    global UserExist
     #Caracteres Inválidos para UserName
     AbcInvalid = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ']
     #Caracteres Válidos para Name
@@ -20,59 +46,63 @@ def datos():
     NumGen = ['1', '2']
 #Algoritmo
     #Comprobador de UserName
-    while UserCorrect == False:
-        username = input("Ingrese su nombre de usuario: ")
-        for x in username:
-            UserNameCounter += 1
-            if x in AbcInvalid:
-                UserInvalid = True
+    username = input("Ingrese su nombre de usuario: ")
+    UserIsOn(username)
+    #Ejecuta si el usuario no está registrado
+    while UserExist == False:
+        while UserCorrect == False:
+            for x in username:
+                UserNameCounter += 1
+                if x in AbcInvalid:
+                    UserInvalid = True
+                else:
+                    UserCorrect = True
+            #Comprobador de Caracteres Validos
+            if UserInvalid == True:
+                print("Nombre de Usuario Inválido, por favor escriba otro.")
+                UserInvalid = False
+                UserCorrect = False
+            #Comprobador de Length del UserName
+            if UserNameCounter >= 30:
+                print("Ha excedido el número de caracteres permitido, por favor escriba otro Nombre de Usuario.")
+                UserInvalid = False
+                UserCorrect = False
+            #Comprobador de Name
+        while NameCorrect == False:
+            nombre = input ("Ingrese su nombre: ")
+            for x in nombre:
+                if x not in AbcValid:
+                    NameInvalid = True
+                else:
+                    NameCorrect = True
+            #Comprobador de Caracteres Validos
+            if NameInvalid == True:
+                print("Ha utilizado un caracter invalido como Nombre.\nSe le informa que solo se permite usar caracteres alfabéticos sin caracteres especiales como apóstrofes o acentos.")
+                NameInvalid = False
+                NameCorrect = False
+        #Comprobador de Edad
+        while gamer == False:
+            edad = input("Ingrese su edad: ")
+            if edad not in NumEdad:
+                print("Ha introducido un carácter inválido, por favor vuelva a intentarlo.")
             else:
-                UserCorrect = True
-        #Comprobador de Caracteres Validos
-        if UserInvalid == True:
-            print("Nombre de Usuario Inválido, por favor escriba otro.")
-            UserInvalid = False
-            UserCorrect = False
-        #Comprobador de Length del UserName
-        if UserNameCounter >= 30:
-            print("Ha excedido el número de caracteres permitido, por favor escriba otro Nombre de Usuario.")
-            UserInvalid = False
-            UserCorrect = False
-    #Comprobador de Name
-    while NameCorrect == False:
-        nombre = input ("Ingrese su nombre: ")
-        for x in nombre:
-            if x not in AbcValid:
-                NameInvalid = True
+                edad = int(edad)
+                if edad >= 5 and edad <= 100:
+                    gamer = True
+                else:
+                    print("Si usted puede leer y entender éste mensaje, es muy viejo para jugar.\nSi no lo puede leer, ni siquiera sabemos cómo llegó tan lejos")
+        #Comprobador de Género
+        while Binario == False:
+            genero = input("Ingrese su genero: \n1. Femenino \n2. Masculino \n")
+            if genero in NumGen:
+                genero = int(genero)
+                Binario = True
             else:
-                NameCorrect = True
-        #Comprobador de Caracteres Validos
-        if NameInvalid == True:
-            print("Ha utilizado un caracter invalido como Nombre.\nSe le informa que solo se permite usar caracteres alfabéticos sin caracteres especiales como apóstrofes o acentos.")
-            NameInvalid = False
-            NameCorrect = False
-    #Comprobador de Edad
-    while gamer == False:
-        edad = input("Ingrese su edad: ")
-        if edad not in NumEdad:
-            print("Ha introducido un carácter inválido, por favor vuelva a intentarlo.")
-        else:
-            edad = int(edad)
-            if edad >= 5 and edad <= 100:
-                gamer = True
-            else:
-                print("Si usted puede leer y entender éste mensaje, es muy viejo para jugar.\nSi no lo puede leer, ni siquiera sabemos cómo llegó tan lejos")
-    #Comprobador de Género
-    while Binario == False:
-        genero = input("Ingrese su genero: \n1. Femenino \n2. Masculino \n")
-        if genero in NumGen:
-            genero = int(genero)
-            Binario = True
-        else:
-            print("Le pedimos disculpas al helicoptero de combate Apache u otro tipo de género No Binario.\nSólo podemos aceptar el género con el que usted nació. Cualquier otro género será denegado.")
-#Convertir datos en Lista
-    m = (username, nombre, edad, genero)
-    return(m)
+                print("Le pedimos disculpas al helicoptero de combate Apache u otro tipo de género No Binario.\nSólo podemos aceptar el género con el que usted nació. Cualquier otro género será denegado.")
+        RegUser()
+        UserExist = True
+        #Convertir datos en Lista
+
 def UserName():
     global username
     return(username)
