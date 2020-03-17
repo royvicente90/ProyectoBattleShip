@@ -10,6 +10,7 @@ def CleanScreen():
         os.system("cls")
     else:
         os.system("clear")
+#Funcion de Guardado de Puntajes
 def Puntaje():
   global DispTotal
   global PuntosTotales  
@@ -17,6 +18,14 @@ def Puntaje():
   with open("Puntuaciones.txt", "a+") as bd:
       bd.write("{},{},{}\n".format(username, PuntosTotales, DispTotal))
   print('Sus puntajes han sido guardados exitosamente')
+#Funcion Evitar abyacencia
+def ady(x0,x1,y0,y1):
+      if((x0==x1)and(y0==y1+1))or((x0==x1)and(y0==y1-1))or((x0==x1+1)and(y0==y1))or((x0==x1-1)and(y0==y1)):
+    adyacente=True
+  else:
+    adyacente=False
+  return(adyacente)
+#Funcion Iniciar Tablero
 def GameInit(tablero_mod):
     #TABLERO
   for x in tablero:
